@@ -1,10 +1,13 @@
 const express = require('express');
+const dotenv = require('dotenv')
 const colors = require('colors')
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
+
+dotenv.config()
 
 require('./models/User');
 require('./models/Blog');
@@ -14,12 +17,12 @@ mongoose.Promise = global.Promise;
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(keys.mongoURI)
+    const conn = await mongoose.connect(process.env.MONGO_URI)
     console.log(
       `MongoDB Connected: ${conn.connection.host}`.cyan.underline.bold
     )
   } catch (error) {
-    console.log(error).red.underline
+    console.log(error)
     process.exit(1)
   }
 }
